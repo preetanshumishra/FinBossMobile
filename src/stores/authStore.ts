@@ -1,6 +1,7 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { authService } from '../authService';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { authService } from '../services/authService';
 import type { User, LoginRequest, RegisterRequest } from '../types/index';
 
 interface AuthState {
@@ -43,8 +44,6 @@ export const useAuthStore = create<AuthState>()(
             refreshToken: response.refreshToken,
             isLoading: false,
           });
-          typeof localStorage !== 'undefined' && localStorage.setItem('accessToken', response.accessToken);
-          typeof localStorage !== 'undefined' && localStorage.setItem('refreshToken', response.refreshToken);
         } catch (error: any) {
           let errorMessage = 'Login failed. Please try again.';
           const status = error?.response?.status;
@@ -80,8 +79,6 @@ export const useAuthStore = create<AuthState>()(
             refreshToken: response.refreshToken,
             isLoading: false,
           });
-          typeof localStorage !== 'undefined' && localStorage.setItem('accessToken', response.accessToken);
-          typeof localStorage !== 'undefined' && localStorage.setItem('refreshToken', response.refreshToken);
         } catch (error: any) {
           const errorMessage = error?.response?.data?.message || error?.message || 'Registration failed';
           set({
@@ -108,8 +105,6 @@ export const useAuthStore = create<AuthState>()(
 
       setTokens: (accessToken: string, refreshToken: string) => {
         set({ accessToken, refreshToken });
-        typeof localStorage !== 'undefined' && localStorage.setItem('accessToken', accessToken);
-        typeof localStorage !== 'undefined' && localStorage.setItem('refreshToken', refreshToken);
       },
 
       clearError: () => {
@@ -118,6 +113,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'auth-storage',
+      storage: createJSONStorage(() => AsyncStorage),
     }
   )
 );

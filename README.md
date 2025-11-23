@@ -15,8 +15,9 @@ A React Native mobile app for personal finance management built with Expo.
 
 - **Framework**: React Native with Expo
 - **Language**: TypeScript
-- **State Management**: Zustand
+- **State Management**: Zustand with AsyncStorage for persistence
 - **HTTP Client**: Axios
+- **Storage**: React Native AsyncStorage for secure token and state storage
 - **Shared Code**: Reuses services, stores, and types from FinBossShared
 
 ## Prerequisites
@@ -84,13 +85,14 @@ expo export:web
 ```
 src/
 ├── services/          # API services (auth, transaction, budget, category, analytics)
-├── stores/            # Zustand state management (authStore)
+├── stores/            # Zustand state management (authStore, themeStore)
 ├── types/             # TypeScript interfaces (User, Transaction, Budget, etc.)
 ├── utils/             # Utility functions (exportUtils)
-├── screens/           # App screens (Login, Dashboard, etc.)
-├── components/        # Reusable components
-├── navigation/        # Navigation configuration
-└── assets/            # Images, fonts, icons
+├── hooks/             # Custom hooks (useTheme)
+├── styles/            # Theme colors and styling
+screens/              # App screens (Login, Dashboard, Transactions, Budgets, Analytics, Settings)
+navigation/           # Navigation configuration (RootNavigator, AppNavigator)
+├── assets/            # Images, fonts, icons
 
 App.tsx               # Root component
 app.json              # Expo configuration
@@ -110,12 +112,47 @@ The following are shared with FinBossWeb to maintain a single source of truth:
 
 ### State Management
 - `authStore` - Authentication state (user, tokens, loading, errors)
+- `themeStore` - Theme state (light/dark mode, persistence)
 
 ### Types
 Complete TypeScript interfaces for all domain models
 
 ### Utilities
 - `exportUtils` - Data export functionality
+
+### Hooks
+- `useTheme` - Custom hook for accessing theme and colors throughout the app
+
+### Styling
+- `colors.ts` - Light and dark theme color palettes
+
+## App Screens
+
+The mobile app includes the following screens:
+
+### Authentication Screens
+- **Login** - User authentication with email and password
+- **Register** - New user registration with validation
+
+### Main App Screens
+- **Dashboard** - Overview of financial summary, recent transactions, and budget status
+- **Transactions** - View, add, and delete transactions with filtering and categorization
+- **Budgets** - Create, view, and manage budgets with progress tracking
+- **Analytics** - Detailed spending analysis with date range filtering and category breakdown
+- **Settings** - User profile, password management, and dark mode toggle
+
+### Navigation
+- Bottom tab navigation for easy access to all screens
+- Stack navigation within each tab for nested screens
+- Authentication flow with conditional rendering based on login state
+
+## Theme Support
+
+The app includes full dark mode support:
+- Toggle dark mode in Settings screen
+- Theme preference persists across app sessions
+- All screens and components adapt to the selected theme
+- Light theme with bright colors and dark backgrounds for dark mode
 
 ## API Integration
 
