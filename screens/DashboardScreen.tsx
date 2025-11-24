@@ -15,6 +15,7 @@ import type { Transaction, TransactionSummary, BudgetStatus, CategoryBreakdown }
 
 export const DashboardScreen = () => {
   const { colors } = useTheme();
+  const styles = getStyles(colors);
   const [summary, setSummary] = useState<TransactionSummary | null>(null);
   const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
   const [budgetStatus, setBudgetStatus] = useState<BudgetStatus[]>([]);
@@ -73,8 +74,8 @@ export const DashboardScreen = () => {
 
   if (loading) {
     return (
-      <View style={styles.centerContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
+      <View style={[styles.centerContainer, { backgroundColor: colors.background }]}>
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
   }
@@ -86,7 +87,7 @@ export const DashboardScreen = () => {
     >
       {error && (
         <View style={styles.errorBanner}>
-          <MaterialIcons name="error" size={20} color="#e74c3c" />
+          <MaterialIcons name="error" size={20} color={colors.error} />
           <Text style={styles.errorText}>{error}</Text>
         </View>
       )}
@@ -129,7 +130,7 @@ export const DashboardScreen = () => {
         <Text style={styles.sectionTitle}>Recent Transactions</Text>
         {recentTransactions.length === 0 ? (
           <View style={styles.emptyState}>
-            <MaterialIcons name="inbox" size={40} color="#bbb" />
+            <MaterialIcons name="inbox" size={40} color={colors.textTertiary} />
             <Text style={styles.emptyText}>No transactions yet</Text>
           </View>
         ) : (
@@ -209,10 +210,9 @@ export const DashboardScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
   },
   centerContainer: {
     flex: 1,
@@ -220,16 +220,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   errorBanner: {
-    backgroundColor: '#fee',
+    backgroundColor: colors.errorLight,
     borderBottomWidth: 1,
-    borderBottomColor: '#e74c3c',
+    borderBottomColor: colors.error,
     padding: 12,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
   },
   errorText: {
-    color: '#e74c3c',
+    color: colors.error,
     fontSize: 14,
     flex: 1,
   },
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -272,13 +272,13 @@ const styles = StyleSheet.create({
   },
   cardLabel: {
     fontSize: 12,
-    color: '#666',
+    color: colors.textSecondary,
     marginBottom: 4,
   },
   cardAmount: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: colors.text,
   },
   section: {
     padding: 12,
@@ -287,28 +287,28 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 12,
-    color: '#333',
+    color: colors.text,
   },
   emptyState: {
     alignItems: 'center',
     paddingVertical: 40,
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     borderRadius: 8,
   },
   emptyText: {
     marginTop: 8,
-    color: '#999',
+    color: colors.textTertiary,
     fontSize: 14,
   },
   transactionsList: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     borderRadius: 8,
     overflow: 'hidden',
   },
   transactionItem: {
     padding: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: colors.borderLight,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -319,12 +319,12 @@ const styles = StyleSheet.create({
   transactionCategory: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: colors.text,
     marginBottom: 4,
   },
   transactionDescription: {
     fontSize: 12,
-    color: '#999',
+    color: colors.textTertiary,
   },
   transactionRight: {
     alignItems: 'flex-end',
@@ -342,10 +342,10 @@ const styles = StyleSheet.create({
   },
   transactionDate: {
     fontSize: 11,
-    color: '#999',
+    color: colors.textTertiary,
   },
   budgetsList: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     borderRadius: 8,
     padding: 12,
     gap: 12,
@@ -353,7 +353,7 @@ const styles = StyleSheet.create({
   budgetItem: {
     paddingBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: colors.borderLight,
   },
   budgetHeader: {
     flexDirection: 'row',
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
   budgetCategory: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: colors.text,
   },
   budgetStatus: {
     fontSize: 11,
@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     height: 6,
-    backgroundColor: '#eee',
+    backgroundColor: colors.borderLight,
     borderRadius: 3,
     overflow: 'hidden',
     marginBottom: 8,
@@ -405,11 +405,11 @@ const styles = StyleSheet.create({
   },
   budgetAmount: {
     fontSize: 12,
-    color: '#666',
+    color: colors.textSecondary,
   },
   budgetRemaining: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#333',
+    color: colors.text,
   },
 });

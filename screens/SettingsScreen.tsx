@@ -20,6 +20,7 @@ export const SettingsScreen = () => {
   const { theme, toggleTheme } = useThemeStore();
   const [loading, setLoading] = useState(false);
   const colors = useMemo(() => getColors(theme), [theme]);
+  const styles = getStyles(colors);
 
   const handleLogout = () => {
     Alert.alert('Logout', 'Are you sure you want to logout?', [
@@ -107,7 +108,7 @@ export const SettingsScreen = () => {
         <Text style={styles.sectionTitle}>Profile</Text>
         <View style={styles.profileCard}>
           <View style={styles.profileIcon}>
-            <MaterialIcons name="account-circle" size={48} color="#007AFF" />
+            <MaterialIcons name="account-circle" size={48} color={colors.primary} />
           </View>
           <View style={styles.profileInfo}>
             <Text style={styles.profileName}>
@@ -135,7 +136,7 @@ export const SettingsScreen = () => {
             value={theme === 'dark'}
             onValueChange={toggleTheme}
             trackColor={{ false: colors.border, true: colors.primary }}
-            thumbColor={theme === 'dark' ? colors.primary : '#999'}
+            thumbColor={theme === 'dark' ? colors.surface : colors.disabled}
           />
         </View>
       </View>
@@ -175,16 +176,16 @@ export const SettingsScreen = () => {
         <Text style={[styles.sectionTitle, styles.dangerTitle]}>Danger Zone</Text>
         <TouchableOpacity style={[styles.settingItem, styles.logoutItem]} onPress={handleLogout} disabled={loading}>
           <View style={styles.settingContent}>
-            <MaterialIcons name="logout" size={24} color="#e74c3c" />
+            <MaterialIcons name="logout" size={24} color={colors.error} />
             <View style={styles.settingText}>
               <Text style={[styles.settingTitle, styles.logoutText]}>Logout</Text>
               <Text style={styles.settingDesc}>Sign out of your account</Text>
             </View>
           </View>
           {loading ? (
-            <ActivityIndicator color="#e74c3c" />
+            <ActivityIndicator color={colors.error} />
           ) : (
-            <MaterialIcons name="chevron-right" size={24} color="#ccc" />
+            <MaterialIcons name="chevron-right" size={24} color={colors.disabled} />
           )}
         </TouchableOpacity>
       </View>
@@ -194,10 +195,9 @@ export const SettingsScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
   },
   section: {
     padding: 12,
@@ -209,14 +209,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     marginBottom: 12,
-    color: '#999',
+    color: colors.textTertiary,
     textTransform: 'uppercase',
   },
   dangerTitle: {
-    color: '#e74c3c',
+    color: colors.error,
   },
   profileCard: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     borderRadius: 8,
     padding: 16,
     flexDirection: 'row',
@@ -237,15 +237,15 @@ const styles = StyleSheet.create({
   profileName: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: colors.text,
     marginBottom: 4,
   },
   profileEmail: {
     fontSize: 13,
-    color: '#999',
+    color: colors.textTertiary,
   },
   settingItem: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     borderRadius: 8,
     padding: 12,
     marginBottom: 8,
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
   },
   logoutItem: {
     borderLeftWidth: 4,
-    borderLeftColor: '#e74c3c',
+    borderLeftColor: colors.error,
   },
   settingContent: {
     flex: 1,
@@ -269,18 +269,18 @@ const styles = StyleSheet.create({
   settingTitle: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: colors.text,
     marginBottom: 4,
   },
   logoutText: {
-    color: '#e74c3c',
+    color: colors.error,
   },
   settingDesc: {
     fontSize: 12,
-    color: '#999',
+    color: colors.textTertiary,
   },
   aboutCard: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     borderRadius: 8,
     overflow: 'hidden',
   },
@@ -292,16 +292,16 @@ const styles = StyleSheet.create({
   },
   aboutItemBorder: {
     borderTopWidth: 1,
-    borderTopColor: '#eee',
+    borderTopColor: colors.borderLight,
   },
   aboutLabel: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#333',
+    color: colors.text,
   },
   aboutValue: {
     fontSize: 14,
-    color: '#999',
+    color: colors.textTertiary,
   },
   footer: {
     height: 20,

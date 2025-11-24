@@ -15,6 +15,7 @@ import type { Transaction, TransactionSummary, BudgetStatus, CategoryBreakdown }
 
 export const AnalyticsScreen = () => {
   const { colors } = useTheme();
+  const styles = getStyles(colors);
   const [dateRange, setDateRange] = useState({
     startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1)
       .toISOString()
@@ -88,8 +89,8 @@ export const AnalyticsScreen = () => {
 
   if (loading) {
     return (
-      <View style={styles.centerContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
+      <View style={[styles.centerContainer, { backgroundColor: colors.background }]}>
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
   }
@@ -101,7 +102,7 @@ export const AnalyticsScreen = () => {
     >
       {error && (
         <View style={styles.errorBanner}>
-          <MaterialIcons name="error" size={20} color="#e74c3c" />
+          <MaterialIcons name="error" size={20} color={colors.error} />
           <Text style={styles.errorText}>{error}</Text>
         </View>
       )}
@@ -213,10 +214,9 @@ export const AnalyticsScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
   },
   centerContainer: {
     flex: 1,
@@ -224,14 +224,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   errorBanner: {
-    backgroundColor: '#fee',
+    backgroundColor: colors.errorLight,
     padding: 12,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
   },
   errorText: {
-    color: '#e74c3c',
+    color: colors.error,
     fontSize: 14,
     flex: 1,
   },
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 12,
-    color: '#333',
+    color: colors.text,
   },
   dateRangeHeader: {
     flexDirection: 'row',
@@ -253,16 +253,16 @@ const styles = StyleSheet.create({
   resetBtn: {
     paddingHorizontal: 12,
     paddingVertical: 6,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.background,
     borderRadius: 4,
   },
   resetBtnText: {
-    color: '#007AFF',
+    color: colors.primary,
     fontSize: 12,
     fontWeight: '600',
   },
   dateRangeContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     borderRadius: 8,
     padding: 12,
     flexDirection: 'row',
@@ -273,13 +273,13 @@ const styles = StyleSheet.create({
   },
   dateLabel: {
     fontSize: 12,
-    color: '#999',
+    color: colors.textTertiary,
     marginBottom: 4,
   },
   dateValue: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: colors.text,
   },
   cardsContainer: {
     gap: 12,
@@ -305,16 +305,16 @@ const styles = StyleSheet.create({
   },
   cardLabel: {
     fontSize: 12,
-    color: '#666',
+    color: colors.textSecondary,
     marginBottom: 4,
   },
   cardAmount: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: colors.text,
   },
   categoryList: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     borderRadius: 8,
     padding: 12,
     gap: 12,
@@ -331,18 +331,18 @@ const styles = StyleSheet.create({
   categoryName: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#333',
+    color: colors.text,
     marginBottom: 6,
   },
   categoryBar: {
     height: 6,
-    backgroundColor: '#eee',
+    backgroundColor: colors.borderLight,
     borderRadius: 3,
     overflow: 'hidden',
   },
   categoryBarFill: {
     height: '100%',
-    backgroundColor: '#007AFF',
+    backgroundColor: colors.primary,
     borderRadius: 3,
   },
   categoryAmount: {
@@ -352,15 +352,15 @@ const styles = StyleSheet.create({
   categoryValue: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#333',
+    color: colors.text,
     marginBottom: 2,
   },
   categoryPercent: {
     fontSize: 11,
-    color: '#999',
+    color: colors.textTertiary,
   },
   budgetList: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     borderRadius: 8,
     padding: 12,
     gap: 12,
@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: colors.borderLight,
   },
   budgetInfo: {
     flex: 1,
@@ -379,12 +379,12 @@ const styles = StyleSheet.create({
   budgetCategory: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#333',
+    color: colors.text,
     marginBottom: 4,
   },
   budgetAmount: {
     fontSize: 12,
-    color: '#666',
+    color: colors.textSecondary,
   },
   budgetStatus: {
     fontSize: 11,

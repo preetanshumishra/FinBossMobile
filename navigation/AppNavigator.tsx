@@ -7,91 +7,114 @@ import { TransactionsScreen } from '../screens/TransactionsScreen';
 import { BudgetsScreen } from '../screens/BudgetsScreen';
 import { AnalyticsScreen } from '../screens/AnalyticsScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
+import { useTheme } from '../src/hooks/useTheme';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const DashboardStack = () => (
-  <Stack.Navigator
-    screenOptions={{
-      headerShown: true,
-      headerStyle: { backgroundColor: '#f5f5f5' },
-      headerTitleStyle: { fontSize: 18, fontWeight: '600' },
-    }}
-  >
-    <Stack.Screen
-      name="DashboardHome"
-      component={DashboardScreen}
-      options={{ title: 'Dashboard' }}
-    />
-  </Stack.Navigator>
-);
+const DashboardStack = () => {
+  const { colors } = useTheme();
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: true,
+        headerStyle: { backgroundColor: colors.background },
+        headerTitleStyle: { fontSize: 18, fontWeight: '600', color: colors.text },
+        headerTintColor: colors.text,
+      }}
+    >
+      <Stack.Screen
+        name="DashboardHome"
+        component={DashboardScreen}
+        options={{ title: 'Dashboard' }}
+      />
+    </Stack.Navigator>
+  );
+};
 
-const TransactionsStack = () => (
-  <Stack.Navigator
-    screenOptions={{
-      headerShown: true,
-      headerStyle: { backgroundColor: '#f5f5f5' },
-      headerTitleStyle: { fontSize: 18, fontWeight: '600' },
-    }}
-  >
-    <Stack.Screen
-      name="TransactionsHome"
-      component={TransactionsScreen}
-      options={{ title: 'Transactions' }}
-    />
-  </Stack.Navigator>
-);
+const TransactionsStack = () => {
+  const { colors } = useTheme();
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: true,
+        headerStyle: { backgroundColor: colors.background },
+        headerTitleStyle: { fontSize: 18, fontWeight: '600', color: colors.text },
+        headerTintColor: colors.text,
+      }}
+    >
+      <Stack.Screen
+        name="TransactionsHome"
+        component={TransactionsScreen}
+        options={{ title: 'Transactions' }}
+      />
+    </Stack.Navigator>
+  );
+};
 
-const BudgetsStack = () => (
-  <Stack.Navigator
-    screenOptions={{
-      headerShown: true,
-      headerStyle: { backgroundColor: '#f5f5f5' },
-      headerTitleStyle: { fontSize: 18, fontWeight: '600' },
-    }}
-  >
-    <Stack.Screen
-      name="BudgetsHome"
-      component={BudgetsScreen}
-      options={{ title: 'Budgets' }}
-    />
-  </Stack.Navigator>
-);
+const BudgetsStack = () => {
+  const { colors } = useTheme();
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: true,
+        headerStyle: { backgroundColor: colors.background },
+        headerTitleStyle: { fontSize: 18, fontWeight: '600', color: colors.text },
+        headerTintColor: colors.text,
+      }}
+    >
+      <Stack.Screen
+        name="BudgetsHome"
+        component={BudgetsScreen}
+        options={{ title: 'Budgets' }}
+      />
+    </Stack.Navigator>
+  );
+};
 
-const AnalyticsStack = () => (
-  <Stack.Navigator
-    screenOptions={{
-      headerShown: true,
-      headerStyle: { backgroundColor: '#f5f5f5' },
-      headerTitleStyle: { fontSize: 18, fontWeight: '600' },
-    }}
-  >
-    <Stack.Screen
-      name="AnalyticsHome"
-      component={AnalyticsScreen}
-      options={{ title: 'Analytics' }}
-    />
-  </Stack.Navigator>
-);
+const AnalyticsStack = () => {
+  const { colors } = useTheme();
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: true,
+        headerStyle: { backgroundColor: colors.background },
+        headerTitleStyle: { fontSize: 18, fontWeight: '600', color: colors.text },
+        headerTintColor: colors.text,
+      }}
+    >
+      <Stack.Screen
+        name="AnalyticsHome"
+        component={AnalyticsScreen}
+        options={{ title: 'Analytics' }}
+      />
+    </Stack.Navigator>
+  );
+};
 
-const SettingsStack = () => (
-  <Stack.Navigator
-    screenOptions={{
-      headerShown: true,
-      headerStyle: { backgroundColor: '#f5f5f5' },
-      headerTitleStyle: { fontSize: 18, fontWeight: '600' },
-    }}
-  >
-    <Stack.Screen
-      name="SettingsHome"
-      component={SettingsScreen}
-      options={{ title: 'Settings' }}
-    />
-  </Stack.Navigator>
-);
+const SettingsStack = () => {
+  const { colors } = useTheme();
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: true,
+        headerStyle: { backgroundColor: colors.background },
+        headerTitleStyle: { fontSize: 18, fontWeight: '600', color: colors.text },
+        headerTintColor: colors.text,
+      }}
+    >
+      <Stack.Screen
+        name="SettingsHome"
+        component={SettingsScreen}
+        options={{ title: 'Settings' }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 export const AppNavigator = () => {
+  const { colors } = useTheme();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -113,9 +136,10 @@ export const AppNavigator = () => {
 
           return <MaterialIcons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#007AFF',
-        tabBarInactiveTintColor: '#999',
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textTertiary,
         tabBarLabelStyle: { fontSize: 12, marginTop: -5 },
+        tabBarStyle: { backgroundColor: colors.surface, borderTopColor: colors.border },
       })}
     >
       <Tab.Screen

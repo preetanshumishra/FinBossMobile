@@ -18,6 +18,7 @@ import type { Transaction, TransactionRequest, Category } from '../src/types/ind
 
 export const TransactionsScreen = () => {
   const { colors } = useTheme();
+  const styles = getStyles(colors);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -137,8 +138,8 @@ export const TransactionsScreen = () => {
 
   if (loading) {
     return (
-      <View style={styles.centerContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
+      <View style={[styles.centerContainer, { backgroundColor: colors.background }]}>
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
   }
@@ -151,14 +152,14 @@ export const TransactionsScreen = () => {
       >
         {error && (
           <View style={styles.errorBanner}>
-            <MaterialIcons name="error" size={20} color="#e74c3c" />
+            <MaterialIcons name="error" size={20} color={colors.error} />
             <Text style={styles.errorText}>{error}</Text>
           </View>
         )}
 
         {transactions.length === 0 ? (
           <View style={styles.emptyState}>
-            <MaterialIcons name="inbox" size={40} color="#bbb" />
+            <MaterialIcons name="inbox" size={40} color={colors.textTertiary} />
             <Text style={styles.emptyText}>No transactions yet</Text>
           </View>
         ) : (
@@ -284,10 +285,9 @@ export const TransactionsScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
   },
   content: {
     flex: 1,
@@ -298,14 +298,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   errorBanner: {
-    backgroundColor: '#fee',
+    backgroundColor: colors.errorLight,
     padding: 12,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
   },
   errorText: {
-    color: '#e74c3c',
+    color: colors.error,
     fontSize: 14,
     flex: 1,
   },
@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     marginTop: 12,
-    color: '#999',
+    color: colors.textTertiary,
     fontSize: 14,
   },
   transactionsList: {
@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   transactionItem: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     borderRadius: 8,
     padding: 12,
     flexDirection: 'row',
@@ -336,17 +336,17 @@ const styles = StyleSheet.create({
   transactionCategory: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: colors.text,
     marginBottom: 4,
   },
   transactionDescription: {
     fontSize: 12,
-    color: '#666',
+    color: colors.textSecondary,
     marginBottom: 4,
   },
   transactionDate: {
     fontSize: 11,
-    color: '#999',
+    color: colors.textTertiary,
   },
   transactionRight: {
     alignItems: 'flex-end',
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#007AFF',
+    backgroundColor: colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
@@ -383,32 +383,32 @@ const styles = StyleSheet.create({
   },
   modal: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.background,
   },
   modalHeader: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     paddingHorizontal: 16,
     paddingVertical: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: colors.borderLight,
   },
   closeBtn: {
-    color: '#007AFF',
+    color: colors.primary,
     fontSize: 14,
     fontWeight: '600',
   },
   saveBtn: {
-    color: '#007AFF',
+    color: colors.primary,
     fontSize: 14,
     fontWeight: '600',
   },
   modalTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: colors.text,
   },
   modalContent: {
     padding: 16,
@@ -420,15 +420,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     marginBottom: 8,
-    color: '#333',
+    color: colors.text,
   },
   input: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.inputBackground,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: colors.inputBorder,
     padding: 12,
     fontSize: 14,
+    color: colors.text,
   },
   typeButtons: {
     flexDirection: 'row',
@@ -439,22 +440,22 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 8,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.background,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: colors.border,
   },
   typeBtnActive: {
-    backgroundColor: '#007AFF',
-    borderColor: '#007AFF',
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
   },
   typeBtnText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#333',
+    color: colors.text,
   },
   pickerContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     borderRadius: 8,
     maxHeight: 200,
   },
@@ -462,13 +463,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: colors.borderLight,
   },
   categoryItemActive: {
     backgroundColor: '#f0f9ff',
   },
   categoryItemText: {
     fontSize: 14,
-    color: '#333',
+    color: colors.text,
   },
 });

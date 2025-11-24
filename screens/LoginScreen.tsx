@@ -19,6 +19,7 @@ export const LoginScreen = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [localError, setLocalError] = useState('');
+  const styles = getStyles(colors);
 
   useEffect(() => {
     clearError();
@@ -55,7 +56,7 @@ export const LoginScreen = ({ navigation }: any) => {
               <TextInput
                 style={styles.input}
                 placeholder="user@example.com"
-                placeholderTextColor="#999"
+                placeholderTextColor={colors.placeholder}
                 value={email}
                 onChangeText={(text) => {
                   setEmail(text);
@@ -73,7 +74,7 @@ export const LoginScreen = ({ navigation }: any) => {
               <TextInput
                 style={styles.input}
                 placeholder="Enter your password"
-                placeholderTextColor="#999"
+                placeholderTextColor={colors.placeholder}
                 value={password}
                 onChangeText={(text) => {
                   setPassword(text);
@@ -116,10 +117,9 @@ export const LoginScreen = ({ navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   scrollContent: {
     flexGrow: 1,
@@ -135,12 +135,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 8,
-    color: '#333',
+    color: colors.text,
   },
   subtitle: {
     fontSize: 16,
     textAlign: 'center',
-    color: '#666',
+    color: colors.textSecondary,
     marginBottom: 40,
   },
   formContainer: {
@@ -153,30 +153,31 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     marginBottom: 8,
-    color: '#333',
+    color: colors.text,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: colors.inputBorder,
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: colors.inputBackground,
+    color: colors.text,
   },
   errorContainer: {
-    backgroundColor: '#fee',
+    backgroundColor: colors.errorLight,
     borderRadius: 8,
     padding: 12,
     marginBottom: 16,
     borderLeftWidth: 4,
-    borderLeftColor: '#e74c3c',
+    borderLeftColor: colors.error,
   },
   errorText: {
-    color: '#e74c3c',
+    color: colors.error,
     fontSize: 14,
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: colors.primary,
     borderRadius: 8,
     padding: 14,
     alignItems: 'center',
@@ -198,11 +199,11 @@ const styles = StyleSheet.create({
   },
   footerText: {
     fontSize: 14,
-    color: '#666',
+    color: colors.textSecondary,
   },
   link: {
     fontSize: 14,
-    color: '#007AFF',
+    color: colors.primary,
     fontWeight: '600',
   },
 });
