@@ -1,0 +1,99 @@
+name: Build & Test
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+
+jobs:
+  lint-and-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Check TypeScript
+        run: npx tsc --noEmit
+
+  web-build:
+    needs: lint-and-check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+
+      - name: Setup Expo
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Export web build
+        run: npx expo export --platform web
+
+      - name: Upload web build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: dist/
+
+  eas-build:
+    needs: lint-and-check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+
+      - name: Setup Expo
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for iOS and Android
+        run: |
+          echo "Native builds commented out - uncomment once developer accounts are configured"
+          echo "To enable builds:"
+          echo "  1. iOS: Run 'eas credentials' to configure Apple Developer account"
+          echo "  2. Android: Run 'eas credentials' to configure Google Play account"
+          # if [ "${{ github.ref }}" = "refs/heads/master" ]; then
+          #   echo "Building production..."
+          #   eas build --platform ios --profile production --non-interactive
+          #   eas build --platform android --profile production --non-interactive
+          # else
+          #   echo "Building preview..."
+          #   eas build --platform ios --profile preview --non-interactive
+          #   eas build --platform android --profile preview --non-interactive
+          # fi

@@ -49,7 +49,7 @@ export const TransactionsScreen = () => {
   const fetchCategories = async () => {
     try {
       const cats = await categoryService.getAll();
-      setCategories(cats.map((c: Category) => c.name || c));
+      setCategories(cats.map((c: Category) => c.name));
     } catch (err) {
       console.error('Failed to load categories:', err);
     }

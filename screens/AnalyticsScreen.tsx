@@ -134,17 +134,17 @@ export const AnalyticsScreen = () => {
         <View style={styles.cardsContainer}>
           <View style={[styles.card, styles.incomeCard]}>
             <Text style={styles.cardLabel}>Income</Text>
-            <Text style={styles.cardAmount}>{formatCurrency(summary?.totalIncome || 0)}</Text>
+            <Text style={styles.cardAmount}>{formatCurrency(summary?.income || 0)}</Text>
           </View>
 
           <View style={[styles.card, styles.expenseCard]}>
             <Text style={styles.cardLabel}>Expense</Text>
-            <Text style={styles.cardAmount}>{formatCurrency(summary?.totalExpense || 0)}</Text>
+            <Text style={styles.cardAmount}>{formatCurrency(summary?.expense || 0)}</Text>
           </View>
 
           <View style={[styles.card, styles.balanceCard]}>
             <Text style={styles.cardLabel}>Net</Text>
-            <Text style={styles.cardAmount}>{formatCurrency(summary?.netIncome || 0)}</Text>
+            <Text style={styles.cardAmount}>{formatCurrency(summary?.balance || 0)}</Text>
           </View>
         </View>
       </View>
@@ -166,7 +166,7 @@ export const AnalyticsScreen = () => {
                           width: `${getPercentage(
                             category.total,
                             categoryBreakdown.reduce((sum, c) => sum + c.total, 0)
-                          )}%`,
+                          )}%` as any,
                         },
                       ]}
                     />

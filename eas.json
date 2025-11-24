@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 5.0.0"
+    "version": ">= 5.0.0",
+    "appVersionSource": "local"
   },
   "build": {
     "development": {
@@ -8,13 +9,18 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal",
-      "ios": {
-        "buildType": "app"
-      }
+      "distribution": "internal"
     },
     "production": {
-      "distribution": "store"
+      "distribution": "store",
+      "ios": {
+        "resourceClass": "default",
+        "credentialsSource": "remote"
+      },
+      "android": {
+        "resourceClass": "default",
+        "credentialsSource": "remote"
+      }
     }
   },
   "submit": {

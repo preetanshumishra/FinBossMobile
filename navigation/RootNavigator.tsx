@@ -14,20 +14,16 @@ export const RootNavigator = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        animationEnabled: true,
       }}
     >
       {accessToken ? (
         <Stack.Screen
           name="App"
           component={AppNavigator}
-          options={{ animationEnabled: false }}
         />
       ) : (
         <Stack.Group
-          screenOptions={{
-            animationEnabled: true,
-          }}
+          screenOptions={{}}
         >
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />

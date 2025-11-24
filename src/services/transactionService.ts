@@ -4,7 +4,7 @@ import type {
   TransactionRequest,
   TransactionSummary,
   CategoryBreakdown,
-} from './types/index';
+} from '../types/index';
 
 export interface PaginationInfo {
   total: number;

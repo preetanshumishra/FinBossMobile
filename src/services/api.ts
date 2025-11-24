@@ -10,8 +10,9 @@ const getApiBaseUrl = (): string => {
 const API_BASE_URL = getApiBaseUrl();
 
 // Helper to get auth store with lazy import to avoid circular dependency
-const getAuthStore = () => {
-  return require('../stores/authStore').useAuthStore;
+const getAuthStore = async () => {
+  const { useAuthStore } = await import('../stores/authStore');
+  return useAuthStore;
 };
 
 class ApiClient {
@@ -28,10 +29,10 @@ class ApiClient {
 
     // Request interceptor to add auth token
     this.axiosInstance.interceptors.request.use(
-      (config) => {
+      async (config) => {
         try {
           // Get token directly from Zustand auth store
-          const useAuthStore = getAuthStore();
+          const useAuthStore = await getAuthStore();
           const accessToken = useAuthStore.getState().accessToken;
           if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
@@ -65,7 +66,7 @@ class ApiClient {
           originalRequest._retry = true;
 
           try {
-            const useAuthStore = getAuthStore();
+            const useAuthStore = await getAuthStore();
             const refreshToken = useAuthStore.getState().refreshToken;
             if (!refreshToken) {
               return Promise.reject(new Error('No refresh token found'));
@@ -87,7 +88,7 @@ class ApiClient {
             return this.axiosInstance(originalRequest);
           } catch (refreshError) {
             // Clear the auth state on refresh failure
-            const useAuthStore = getAuthStore();
+            const useAuthStore = await getAuthStore();
             useAuthStore.setState({
               user: null,
               accessToken: null,

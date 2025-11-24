@@ -54,7 +54,7 @@ export const SettingsScreen = () => {
         },
         {
           text: 'Next',
-          onPress: async (currentPassword) => {
+          onPress: async (currentPassword: string | undefined) => {
             if (!currentPassword) {
               Alert.alert('Error', 'Current password is required');
               return;
@@ -71,7 +71,7 @@ export const SettingsScreen = () => {
                 },
                 {
                   text: 'Change',
-                  onPress: async (newPassword) => {
+                  onPress: async (newPassword: string | undefined) => {
                     if (!newPassword || newPassword.length < 6) {
                       Alert.alert('Error', 'Password must be at least 6 characters');
                       return;
