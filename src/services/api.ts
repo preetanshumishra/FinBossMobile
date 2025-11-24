@@ -1,6 +1,7 @@
 import axios from 'axios';
 import type { AxiosInstance } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAuthStore } from '../stores/authStore';
 
 // Get API base URL from environment or use production default
 const getApiBaseUrl = (): string => {
@@ -24,14 +25,15 @@ class ApiClient {
 
     // Request interceptor to add auth token
     this.axiosInstance.interceptors.request.use(
-      async (config) => {
+      (config) => {
         try {
-          const token = await AsyncStorage.getItem('accessToken');
-          if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+          // Get token directly from Zustand auth store
+          const accessToken = useAuthStore.getState().accessToken;
+          if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
           }
         } catch (error) {
-          console.error('Error retrieving token from AsyncStorage:', error);
+          console.error('Error retrieving token from auth store:', error);
         }
         return config;
       },
@@ -59,24 +61,33 @@ class ApiClient {
           originalRequest._retry = true;
 
           try {
-            const refreshToken = await AsyncStorage.getItem('refreshToken');
+            const refreshToken = useAuthStore.getState().refreshToken;
+            if (!refreshToken) {
+              return Promise.reject(new Error('No refresh token found'));
+            }
+
             const response = await axios.post(`${API_BASE_URL}/api/v1/auth/refresh`, {
               refreshToken,
             });
 
-            const { accessToken, refreshToken: newRefreshToken } = response.data;
-            await AsyncStorage.setItem('accessToken', accessToken);
-            await AsyncStorage.setItem('refreshToken', newRefreshToken);
+            const { accessToken, refreshToken: newRefreshToken } = response.data.data;
+
+            // Update the auth state in Zustand store
+            useAuthStore.setState({
+              accessToken,
+              refreshToken: newRefreshToken,
+            });
 
             originalRequest.headers.Authorization = `Bearer ${accessToken}`;
             return this.axiosInstance(originalRequest);
           } catch (refreshError) {
-            try {
-              await AsyncStorage.removeItem('accessToken');
-              await AsyncStorage.removeItem('refreshToken');
-            } catch (storageError) {
-              console.error('Error clearing AsyncStorage:', storageError);
-            }
+            // Clear the auth state on refresh failure
+            useAuthStore.setState({
+              user: null,
+              accessToken: null,
+              refreshToken: null,
+              error: 'Session expired. Please login again.',
+            });
             return Promise.reject(refreshError);
           }
         }
