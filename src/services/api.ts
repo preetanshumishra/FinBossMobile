@@ -1,7 +1,5 @@
 import axios from 'axios';
 import type { AxiosInstance } from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useAuthStore } from '../stores/authStore';
 
 // Get API base URL from environment or use production default
 const getApiBaseUrl = (): string => {
@@ -10,6 +8,11 @@ const getApiBaseUrl = (): string => {
 };
 
 const API_BASE_URL = getApiBaseUrl();
+
+// Helper to get auth store with lazy import to avoid circular dependency
+const getAuthStore = () => {
+  return require('../stores/authStore').useAuthStore;
+};
 
 class ApiClient {
   private axiosInstance: AxiosInstance;
@@ -28,6 +31,7 @@ class ApiClient {
       (config) => {
         try {
           // Get token directly from Zustand auth store
+          const useAuthStore = getAuthStore();
           const accessToken = useAuthStore.getState().accessToken;
           if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
@@ -61,6 +65,7 @@ class ApiClient {
           originalRequest._retry = true;
 
           try {
+            const useAuthStore = getAuthStore();
             const refreshToken = useAuthStore.getState().refreshToken;
             if (!refreshToken) {
               return Promise.reject(new Error('No refresh token found'));
@@ -82,6 +87,7 @@ class ApiClient {
             return this.axiosInstance(originalRequest);
           } catch (refreshError) {
             // Clear the auth state on refresh failure
+            const useAuthStore = getAuthStore();
             useAuthStore.setState({
               user: null,
               accessToken: null,
