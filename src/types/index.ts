@@ -56,16 +56,16 @@ export interface TransactionRequest {
 }
 
 export interface TransactionSummary {
-  totalIncome: number;
-  totalExpense: number;
-  netIncome: number;
+  income: number;
+  expense: number;
+  balance: number;
 }
 
 export interface CategoryBreakdown {
-  category: string;
-  amount: number;
-  percentage: number;
-  transactionCount: number;
+  _id: string;
+  total: number;
+  count: number;
+  type: 'income' | 'expense';
 }
 
 // Budgets

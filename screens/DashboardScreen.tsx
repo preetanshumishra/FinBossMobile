@@ -25,9 +25,15 @@ export const DashboardScreen = () => {
   const fetchDashboardData = async () => {
     try {
       setError('');
+
+      // Set date range for current month
+      const now = new Date();
+      const startDate = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+      const endDate = now.toISOString().split('T')[0];
+
       const [summaryData, { transactions }, budgets] = await Promise.all([
-        transactionService.getSummary(),
-        transactionService.getAll({ limit: 5 }),
+        transactionService.getSummary({ startDate, endDate }),
+        transactionService.getAll({ limit: 5, page: 1 }),
         budgetService.getOverview(),
       ]);
 
@@ -93,7 +99,7 @@ export const DashboardScreen = () => {
           </View>
           <View style={styles.cardContent}>
             <Text style={styles.cardLabel}>Income</Text>
-            <Text style={styles.cardAmount}>{formatCurrency(summary?.totalIncome || 0)}</Text>
+            <Text style={styles.cardAmount}>{formatCurrency(summary?.income || 0)}</Text>
           </View>
         </View>
 
@@ -103,7 +109,7 @@ export const DashboardScreen = () => {
           </View>
           <View style={styles.cardContent}>
             <Text style={styles.cardLabel}>Expense</Text>
-            <Text style={styles.cardAmount}>{formatCurrency(summary?.totalExpense || 0)}</Text>
+            <Text style={styles.cardAmount}>{formatCurrency(summary?.expense || 0)}</Text>
           </View>
         </View>
 
@@ -113,7 +119,7 @@ export const DashboardScreen = () => {
           </View>
           <View style={styles.cardContent}>
             <Text style={styles.cardLabel}>Balance</Text>
-            <Text style={styles.cardAmount}>{formatCurrency(summary?.netIncome || 0)}</Text>
+            <Text style={styles.cardAmount}>{formatCurrency(summary?.balance || 0)}</Text>
           </View>
         </View>
       </View>

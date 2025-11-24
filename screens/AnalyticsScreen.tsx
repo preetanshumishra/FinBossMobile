@@ -156,15 +156,15 @@ export const AnalyticsScreen = () => {
             {categoryBreakdown.map((category, index) => (
               <View key={index} style={styles.categoryItem}>
                 <View style={styles.categoryInfo}>
-                  <Text style={styles.categoryName}>{category.category}</Text>
+                  <Text style={styles.categoryName}>{category._id}</Text>
                   <View style={styles.categoryBar}>
                     <View
                       style={[
                         styles.categoryBarFill,
                         {
                           width: `${getPercentage(
-                            category.totalAmount,
-                            categoryBreakdown.reduce((sum, c) => sum + c.totalAmount, 0)
+                            category.total,
+                            categoryBreakdown.reduce((sum, c) => sum + c.total, 0)
                           )}%`,
                         },
                       ]}
@@ -172,9 +172,9 @@ export const AnalyticsScreen = () => {
                   </View>
                 </View>
                 <View style={styles.categoryAmount}>
-                  <Text style={styles.categoryValue}>{formatCurrency(category.totalAmount)}</Text>
+                  <Text style={styles.categoryValue}>{formatCurrency(category.total)}</Text>
                   <Text style={styles.categoryPercent}>
-                    {getPercentage(category.totalAmount, categoryBreakdown.reduce((sum, c) => sum + c.totalAmount, 0))}%
+                    {getPercentage(category.total, categoryBreakdown.reduce((sum, c) => sum + c.total, 0))}%
                   </Text>
                 </View>
               </View>

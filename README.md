@@ -54,11 +54,14 @@ Then choose your platform:
 
 ### Environment Variables
 
-Create a `.env` file in the root directory:
+Create a `.env` file in the root directory (optional):
 
 ```env
-VITE_API_BASE_URL=http://localhost:5000
+VITE_API_BASE_URL=https://finbossapi-production.up.railway.app
+REACT_APP_API_BASE_URL=https://finbossapi-production.up.railway.app
 ```
+
+If no API URL is provided, the app will default to the production API.
 
 ## Building
 

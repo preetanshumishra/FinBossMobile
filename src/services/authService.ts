@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from './api';
 import type { AuthResponse, LoginRequest, RegisterRequest, User } from './types/index';
 
@@ -64,9 +65,7 @@ export const authService = {
     return response.data.data;
   },
 
-  logout: (): void => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('user');
+  logout: async (): Promise<void> => {
+    await AsyncStorage.multiRemove(['accessToken', 'refreshToken', 'user']);
   },
 };

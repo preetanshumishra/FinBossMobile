@@ -50,10 +50,22 @@ export const useAuthStore = create<AuthState>()(
           const message = error?.response?.data?.message || error?.message;
 
           // Handle specific error status codes
-          if (status === 404 || status === 400 || status === 401) {
+          if (status === 401 || status === 403) {
             errorMessage = 'Incorrect email or password';
-          } else if (message) {
+          } else if (status === 404) {
+            errorMessage = 'User not found. Please check your email or register.';
+          } else if (status === 400) {
+            errorMessage = 'Invalid email or password format';
+          } else if (status === 500) {
+            errorMessage = 'Server error. Please try again later.';
+          } else if (status === 503) {
+            errorMessage = 'Service unavailable. Please try again later.';
+          } else if (message && !message.includes('status code')) {
             errorMessage = message;
+          } else if (error?.message?.includes('Network')) {
+            errorMessage = 'Network error. Please check your internet connection.';
+          } else if (!status) {
+            errorMessage = 'Unable to connect to server. Check your internet connection.';
           }
 
           set({
@@ -80,7 +92,29 @@ export const useAuthStore = create<AuthState>()(
             isLoading: false,
           });
         } catch (error: any) {
-          const errorMessage = error?.response?.data?.message || error?.message || 'Registration failed';
+          let errorMessage = 'Registration failed. Please try again.';
+          const status = error?.response?.status;
+          const message = error?.response?.data?.message || error?.message;
+
+          // Handle specific error status codes
+          if (status === 409) {
+            errorMessage = 'Email already registered. Please login or use a different email.';
+          } else if (status === 400) {
+            errorMessage = message || 'Invalid input. Please check your email and password format.';
+          } else if (status === 403) {
+            errorMessage = 'Registration not allowed. Please contact support.';
+          } else if (status === 500) {
+            errorMessage = 'Server error. Please try again later.';
+          } else if (status === 503) {
+            errorMessage = 'Service unavailable. Please try again later.';
+          } else if (message && !message.includes('status code')) {
+            errorMessage = message;
+          } else if (error?.message?.includes('Network')) {
+            errorMessage = 'Network error. Please check your internet connection.';
+          } else if (!status) {
+            errorMessage = 'Unable to connect to server. Check your internet connection.';
+          }
+
           set({
             error: errorMessage,
             isLoading: false,

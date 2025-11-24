@@ -26,8 +26,15 @@ export const SettingsScreen = () => {
       { text: 'Cancel', onPress: () => {} },
       {
         text: 'Logout',
-        onPress: () => {
-          logout();
+        onPress: async () => {
+          try {
+            setLoading(true);
+            await logout();
+          } catch (err) {
+            Alert.alert('Error', 'Failed to logout');
+          } finally {
+            setLoading(false);
+          }
         },
         style: 'destructive',
       },
@@ -37,7 +44,7 @@ export const SettingsScreen = () => {
   const handleChangePassword = () => {
     Alert.prompt(
       'Change Password',
-      'Enter your new password (min 6 characters)',
+      'Enter your current password',
       [
         {
           text: 'Cancel',
@@ -45,22 +52,47 @@ export const SettingsScreen = () => {
           style: 'cancel',
         },
         {
-          text: 'Change',
-          onPress: async (password) => {
-            if (!password || password.length < 6) {
-              Alert.alert('Error', 'Password must be at least 6 characters');
+          text: 'Next',
+          onPress: async (currentPassword) => {
+            if (!currentPassword) {
+              Alert.alert('Error', 'Current password is required');
               return;
             }
 
-            try {
-              setLoading(true);
-              await authService.changePassword(password);
-              Alert.alert('Success', 'Password changed successfully');
-            } catch (err) {
-              Alert.alert('Error', err instanceof Error ? err.message : 'Failed to change password');
-            } finally {
-              setLoading(false);
-            }
+            Alert.prompt(
+              'Change Password',
+              'Enter your new password (min 6 characters)',
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => {},
+                  style: 'cancel',
+                },
+                {
+                  text: 'Change',
+                  onPress: async (newPassword) => {
+                    if (!newPassword || newPassword.length < 6) {
+                      Alert.alert('Error', 'Password must be at least 6 characters');
+                      return;
+                    }
+
+                    try {
+                      setLoading(true);
+                      await authService.changePassword({
+                        currentPassword,
+                        newPassword,
+                      });
+                      Alert.alert('Success', 'Password changed successfully');
+                    } catch (err) {
+                      Alert.alert('Error', err instanceof Error ? err.message : 'Failed to change password');
+                    } finally {
+                      setLoading(false);
+                    }
+                  },
+                },
+              ],
+              'secure-text'
+            );
           },
         },
       ],

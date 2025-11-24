@@ -2,10 +2,10 @@ import axios from 'axios';
 import type { AxiosInstance } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Get API base URL from environment or use default
+// Get API base URL from environment or use production default
 const getApiBaseUrl = (): string => {
   const apiUrl = process.env.VITE_API_BASE_URL || process.env.REACT_APP_API_BASE_URL;
-  return apiUrl || 'http://localhost:5000';
+  return apiUrl || 'https://finbossapi-production.up.railway.app';
 };
 
 const API_BASE_URL = getApiBaseUrl();
@@ -43,6 +43,16 @@ class ApiClient {
       (response) => response,
       async (error) => {
         const originalRequest = error.config;
+
+        // Log API errors for debugging
+        console.error('API Error Details:', {
+          status: error.response?.status,
+          method: originalRequest?.method,
+          url: originalRequest?.url,
+          params: originalRequest?.params,
+          data: originalRequest?.data,
+          message: error?.response?.data?.message || error?.message,
+        });
 
         // If 401 and haven't tried to refresh yet
         if (error.response?.status === 401 && !originalRequest._retry) {

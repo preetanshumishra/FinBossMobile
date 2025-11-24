@@ -14,7 +14,7 @@ import {
 import { useTheme } from '../src/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { transactionService, categoryService } from '../src';
-import type { Transaction, TransactionRequest } from '../src/types';
+import type { Transaction, TransactionRequest, Category } from '../src/types/index';
 
 export const TransactionsScreen = () => {
   const { colors } = useTheme();
@@ -35,7 +35,7 @@ export const TransactionsScreen = () => {
   const fetchTransactions = async () => {
     try {
       setError('');
-      const { transactions: data } = await transactionService.getAll({ limit: 100 });
+      const { transactions: data } = await transactionService.getAll({ limit: 100, page: 1 });
       setTransactions(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load transactions');
@@ -48,7 +48,7 @@ export const TransactionsScreen = () => {
   const fetchCategories = async () => {
     try {
       const cats = await categoryService.getAll();
-      setCategories(cats.map((c: any) => c.name || c));
+      setCategories(cats.map((c: Category) => c.name || c));
     } catch (err) {
       console.error('Failed to load categories:', err);
     }
@@ -64,9 +64,27 @@ export const TransactionsScreen = () => {
     fetchTransactions();
   };
 
+  const isValidDate = (dateString: string): boolean => {
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!regex.test(dateString)) return false;
+    const date = new Date(dateString);
+    return date instanceof Date && !isNaN(date.getTime());
+  };
+
   const handleAddTransaction = async () => {
     if (!formData.category || !formData.description || !formData.amount) {
       setError('All fields are required');
+      return;
+    }
+
+    const amount = parseFloat(formData.amount);
+    if (isNaN(amount) || amount <= 0) {
+      setError('Amount must be a positive number');
+      return;
+    }
+
+    if (!isValidDate(formData.date)) {
+      setError('Invalid date format. Use YYYY-MM-DD');
       return;
     }
 
@@ -75,7 +93,7 @@ export const TransactionsScreen = () => {
         type: formData.type,
         category: formData.category,
         description: formData.description,
-        amount: parseFloat(formData.amount),
+        amount,
         date: formData.date,
       });
 

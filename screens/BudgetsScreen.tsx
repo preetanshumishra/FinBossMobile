@@ -14,7 +14,7 @@ import {
 import { useTheme } from '../src/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { budgetService, categoryService } from '../src';
-import type { Budget, BudgetStatus } from '../src/types';
+import type { Budget, BudgetStatus, Category } from '../src/types/index';
 
 export const BudgetsScreen = () => {
   const { colors } = useTheme();
@@ -50,7 +50,7 @@ export const BudgetsScreen = () => {
   const fetchCategories = async () => {
     try {
       const cats = await categoryService.getAll();
-      setCategories(cats.map((c: any) => c.name || c));
+      setCategories(cats.map((c: Category) => c.name || c));
     } catch (err) {
       console.error('Failed to load categories:', err);
     }
@@ -72,10 +72,17 @@ export const BudgetsScreen = () => {
       return;
     }
 
+    const limit = parseFloat(formData.budgetLimit);
+    if (isNaN(limit) || limit <= 0) {
+      setError('Budget amount must be a positive number');
+      return;
+    }
+
     try {
       await budgetService.create({
         category: formData.category,
-        budgetLimit: parseFloat(formData.budgetLimit),
+        limit,
+        period: 'monthly',
       });
 
       setShowForm(false);
