@@ -193,13 +193,19 @@ npm start
 - React Native Debugger for advanced debugging
 - Check logs with `npm start` output
 
+## FinBoss Ecosystem
+
+This project is part of the FinBoss financial management ecosystem:
+
+- **[FinBossAPI](https://github.com/preetanshumishra/FinBossAPI)** - Node.js/Express backend API with MongoDB
+- **[FinBossWeb](https://github.com/preetanshumishra/FinBossWeb)** - React web frontend
+- **[FinBossAndroid](https://github.com/preetanshumishra/FinBossAndroid)** - Native Android app (Kotlin + Jetpack Compose)
+- **[FinBossiOS](https://github.com/preetanshumishra/FinBossiOS)** - Native iOS app (Swift + SwiftUI)
+
 ## License
 
 MIT
 
 ## Support
 
-For issues and questions, refer to:
-- FinBossAPI: https://github.com/preetanshumishra/FinBossAPI
-- FinBossWeb: https://github.com/preetanshumishra/FinBossWeb
-- FinBossShared: https://github.com/preetanshumishra/FinBossShared
+For issues and questions, refer to the related projects above.
