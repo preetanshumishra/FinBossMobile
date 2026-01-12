@@ -57,6 +57,12 @@ Then choose your platform:
 Create a `.env` file in the root directory (optional):
 
 ```env
+VITE_API_BASE_URL=http://localhost:5000
+REACT_APP_API_BASE_URL=http://localhost:5000
+```
+
+For production, use the Railway API:
+```env
 VITE_API_BASE_URL=https://finbossapi-production.up.railway.app
 REACT_APP_API_BASE_URL=https://finbossapi-production.up.railway.app
 ```
@@ -160,8 +166,8 @@ The app includes full dark mode support:
 ## API Integration
 
 The app communicates with FinBossAPI backend:
-- **Base URL**: `http://localhost:5000/api/v1` (development)
-- **Production**: https://finbossapi-production.up.railway.app
+- **Development Base URL**: `http://localhost:5000/api/v1`
+- **Production Base URL**: `https://finbossapi-production.up.railway.app/api/v1`
 - **Authentication**: JWT tokens in Authorization header
 - **API Docs**: Available on the backend server
 
