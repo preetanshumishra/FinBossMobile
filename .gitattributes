@@ -27,3 +27,10 @@ README.md text eol=lf
 *.gif binary
 *.ttf binary
 *.otf binary
+
+# GitHub language detection
+node_modules/** linguist-vendored linguist-generated
+.expo/** linguist-generated
+build/** linguist-generated
+dist/** linguist-generated
+.metro-health-check-result.json linguist-generated
