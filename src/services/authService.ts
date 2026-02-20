@@ -66,6 +66,15 @@ export const authService = {
   },
 
   logout: async (): Promise<void> => {
-    await AsyncStorage.multiRemove(['accessToken', 'refreshToken', 'user']);
+    const refreshToken = await AsyncStorage.getItem('refreshToken');
+    // Invalidate refresh token on the server (best-effort, don't block on failure)
+    if (refreshToken) {
+      try {
+        await api.post('/auth/logout', { refreshToken });
+      } catch {
+        // Server-side invalidation is best-effort — proceed with local cleanup
+      }
+    }
+    await AsyncStorage.removeItem('auth-storage');
   },
 };

@@ -95,6 +95,9 @@ class ApiClient {
               refreshToken: null,
               error: 'Session expired. Please login again.',
             });
+            // Also clear persisted storage so it doesn't survive app restart
+            const AsyncStorage = (await import('@react-native-async-storage/async-storage')).default;
+            await AsyncStorage.removeItem('auth-storage');
             return Promise.reject(refreshError);
           }
         }
