@@ -40,8 +40,8 @@ export const RegisterScreen = ({ navigation }: any) => {
       return;
     }
 
-    if (password.length < 6) {
-      setLocalError('Password must be at least 6 characters');
+    if (password.length < 8) {
+      setLocalError('Password must be at least 8 characters');
       return;
     }
 
@@ -128,7 +128,7 @@ export const RegisterScreen = ({ navigation }: any) => {
               <Text style={styles.label}>Password</Text>
               <TextInput
                 style={styles.input}
-                placeholder="At least 6 characters"
+                placeholder="At least 8 characters"
                 placeholderTextColor={colors.placeholder}
                 value={password}
                 onChangeText={(text) => {

@@ -62,7 +62,7 @@ export const SettingsScreen = () => {
 
             Alert.prompt(
               'Change Password',
-              'Enter your new password (min 6 characters)',
+              'Enter your new password (min 8 characters)',
               [
                 {
                   text: 'Cancel',
@@ -72,8 +72,8 @@ export const SettingsScreen = () => {
                 {
                   text: 'Change',
                   onPress: async (newPassword: string | undefined) => {
-                    if (!newPassword || newPassword.length < 6) {
-                      Alert.alert('Error', 'Password must be at least 6 characters');
+                    if (!newPassword || newPassword.length < 8) {
+                      Alert.alert('Error', 'Password must be at least 8 characters');
                       return;
                     }
 
