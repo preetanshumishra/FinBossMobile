@@ -63,8 +63,8 @@ REACT_APP_API_BASE_URL=http://localhost:5000
 
 For production, use the Google Cloud Run API:
 ```env
-VITE_API_BASE_URL=https://finbossapi-gx2r7kziwa-uc.a.run.app
-REACT_APP_API_BASE_URL=https://finbossapi-gx2r7kziwa-uc.a.run.app
+VITE_API_BASE_URL=https://finbossapi-618844932346.us-central1.run.app
+REACT_APP_API_BASE_URL=https://finbossapi-618844932346.us-central1.run.app
 ```
 
 If no API URL is provided, the app will default to the production API.
@@ -167,7 +167,7 @@ The app includes full dark mode support:
 
 The app communicates with FinBossAPI backend:
 - **Development Base URL**: `http://localhost:5000/api/v1`
-- **Production Base URL**: `https://finbossapi-gx2r7kziwa-uc.a.run.app/api/v1`
+- **Production Base URL**: `https://finbossapi-618844932346.us-central1.run.app/api/v1`
 - **Authentication**: JWT tokens in Authorization header
 - **API Docs**: Available on the backend server
 
