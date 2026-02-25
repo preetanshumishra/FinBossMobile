@@ -62,10 +62,10 @@ export interface TransactionSummary {
 }
 
 export interface CategoryBreakdown {
-  _id: string;
-  total: number;
-  count: number;
-  type: 'income' | 'expense';
+  category: string;
+  amount: number;
+  percentage: number;
+  transactionCount: number;
 }
 
 // Budgets

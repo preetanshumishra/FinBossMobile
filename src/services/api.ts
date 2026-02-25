@@ -4,7 +4,7 @@ import type { AxiosInstance } from 'axios';
 // Get API base URL from environment or use production default
 const getApiBaseUrl = (): string => {
   const apiUrl = process.env.VITE_API_BASE_URL || process.env.REACT_APP_API_BASE_URL;
-  return apiUrl || 'https://finbossapi-production.up.railway.app';
+  return apiUrl || 'https://finbossapi-gx2r7kziwa-uc.a.run.app';
 };
 
 const API_BASE_URL = getApiBaseUrl();
